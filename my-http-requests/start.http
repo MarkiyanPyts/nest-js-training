@@ -7,7 +7,7 @@
 ###
 GET {{baseURL}}/tasks
 
-###
+###Bad Request Example
 GET {{baseURL}}/tasks/10
 
 ### Create a new task
