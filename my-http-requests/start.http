@@ -2,14 +2,6 @@
 @baseURL = http://localhost:3000
 @content-type = application/json
 
-
-{{baseURL}}
-###
-GET {{baseURL}}/tasks
-
-###Bad Request Example
-GET {{baseURL}}/tasks/10
-
 ###
 # @name createNewTask
 POST {{baseURL}}/tasks
@@ -20,6 +12,18 @@ Content-Type: {{content-type}}
     "description": "Complete NestJS project",
     "status": "OPEN"
 }
+
+### Set taskId variable
+@taskId = {{createNewTask.response.body.$.id}}
+
+
+{{baseURL}}
+###
+GET {{baseURL}}/tasks
+
+###Bad Request Example
+GET {{baseURL}}/tasks/{{taskId}}
+
 
 ### Test invalid status
 POST {{baseURL}}/tasks
@@ -32,7 +36,6 @@ Content-Type: {{content-type}}
 }
 
 ### Update task status
-@taskId = {{createNewTask.response.body.$.id}}
 PATCH {{baseURL}}/tasks/{{taskId}}/status
 Content-Type: {{content-type}}
 
@@ -41,7 +44,6 @@ Content-Type: {{content-type}}
 }
 
 ### Update task status bad request
-@taskId = {{createNewTask.response.body.$.id}}
 PATCH {{baseURL}}/tasks/{{taskId}}/status
 Content-Type: {{content-type}}
 
@@ -50,5 +52,4 @@ Content-Type: {{content-type}}
 }
 
 ### Delete task
-@taskId = {{createNewTask.response.body.$.id}}
 DELETE {{baseURL}}/tasks/{{taskId}}
