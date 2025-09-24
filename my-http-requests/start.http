@@ -19,3 +19,12 @@ Content-Type: {{content-type}}
     "description": "Complete NestJS project",
     "status": "OPEN"
 }
+### Test invalid status
+POST {{baseURL}}/tasks
+Content-Type: {{content-type}}
+
+{
+    "title": null,
+    # "description": "Complete NestJS project",
+    "status": "XXX"
+}

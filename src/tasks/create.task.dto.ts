@@ -1,7 +1,16 @@
-import { ITaskStatus } from './tasks.model';
+import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { TaskStatus } from './tasks.model';
 
 export class CreateTaskDto {
+  @IsNotEmpty()
+  @IsString()
   title: string;
+
+  @IsNotEmpty()
+  @IsString()
   description: string;
-  status: ITaskStatus;
+
+  @IsNotEmpty()
+  @IsEnum(TaskStatus)
+  status: TaskStatus;
 }
