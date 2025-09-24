@@ -12,6 +12,7 @@ export class TasksService {
   }
 
   public findOne(id: string): ITask | undefined {
+    console.log(`Looking for task with ${id} in ${JSON.stringify(this.tasks)}`);
     return this.tasks.find((task) => task.id === id);
   }
 

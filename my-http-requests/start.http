@@ -10,7 +10,8 @@ GET {{baseURL}}/tasks
 ###Bad Request Example
 GET {{baseURL}}/tasks/10
 
-### Create a new task
+###
+# @name createNewTask
 POST {{baseURL}}/tasks
 Content-Type: {{content-type}}
 
@@ -19,6 +20,7 @@ Content-Type: {{content-type}}
     "description": "Complete NestJS project",
     "status": "OPEN"
 }
+
 ### Test invalid status
 POST {{baseURL}}/tasks
 Content-Type: {{content-type}}
@@ -26,5 +28,23 @@ Content-Type: {{content-type}}
 {
     "title": null,
     # "description": "Complete NestJS project",
+    "status": "XXX"
+}
+
+### Update task status
+@taskId = {{createNewTask.response.body.$.id}}
+PATCH {{baseURL}}/tasks/{{taskId}}/status
+Content-Type: {{content-type}}
+
+{
+    "status": "IN_PROGRESS"
+}
+
+### Update task status bad request
+@taskId = {{createNewTask.response.body.$.id}}
+PATCH {{baseURL}}/tasks/{{taskId}}/status
+Content-Type: {{content-type}}
+
+{
     "status": "XXX"
 }
