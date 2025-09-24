@@ -48,3 +48,7 @@ Content-Type: {{content-type}}
 {
     "status": "XXX"
 }
+
+### Delete task
+@taskId = {{createNewTask.response.body.$.id}}
+DELETE {{baseURL}}/tasks/{{taskId}}
