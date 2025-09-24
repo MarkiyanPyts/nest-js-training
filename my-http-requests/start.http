@@ -51,5 +51,13 @@ Content-Type: {{content-type}}
     "status": "XXX"
 }
 
+### Update task
+PATCH {{baseURL}}/tasks/{{taskId}}
+Content-Type: {{content-type}}
+
+{
+    "status": "OPEN"
+}
+
 ### Delete task
 DELETE {{baseURL}}/tasks/{{taskId}}
