@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: my_nest_postgres
+    environment:
+      POSTGRES_USER: nestcource
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tasks
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nestcource -d tasks"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

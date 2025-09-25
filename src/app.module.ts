@@ -6,12 +6,17 @@ import { MessageFormatterService } from './message-formatter/message-formatter.s
 import { LoggerService } from './logger/logger.service';
 import { TasksModule } from './tasks/tasks.module';
 import { ConfigModule } from '@nestjs/config';
-import { appConfig } from './config/app.config';
+import { appConfig, appConfigSchema } from './config/app.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       load: [appConfig],
+      validationSchema: appConfigSchema,
+      validationOptions: {
+        // allowUnknown: true,
+        abortEarly: true,
+      },
     }),
     TasksModule,
   ],
