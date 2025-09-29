@@ -10,5 +10,6 @@ export const typeOrmConfig = registerAs(
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME ?? 'tasks',
+    synchronize: Boolean(process.env.DB_SYNC ?? false), // newer have it set to true in production
   }),
 );

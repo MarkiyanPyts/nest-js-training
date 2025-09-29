@@ -10,6 +10,7 @@ import { appConfig, appConfigSchema } from './config/app.config';
 import { typeOrmConfig } from './config/database.config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { TypedConfigService } from './config/typed-config.service';
+import { Task } from './tasks/task.entiry';
 
 @Module({
   imports: [
@@ -19,7 +20,10 @@ import { TypedConfigService } from './config/typed-config.service';
       useFactory: (configService: TypedConfigService) => {
         const dbConfig: TypeOrmModuleOptions | undefined =
           configService.get('database');
-        return { ...dbConfig };
+        return {
+          ...dbConfig,
+          entities: [Task],
+        };
       },
     }),
     ConfigModule.forRoot({
