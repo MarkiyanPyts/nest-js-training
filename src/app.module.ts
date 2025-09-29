@@ -9,14 +9,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { appConfig, appConfigSchema } from './config/app.config';
 import { typeOrmConfig } from './config/database.config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { ConfigType } from './config/config.types';
+import { TypedConfigService } from './config/typed-config.service';
 
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService<ConfigType>) => {
+      useFactory: (configService: TypedConfigService) => {
         const dbConfig: TypeOrmModuleOptions | undefined =
           configService.get('database');
         return { ...dbConfig };
@@ -34,6 +34,15 @@ import { ConfigType } from './config/config.types';
     TasksModule,
   ],
   controllers: [AppController],
-  providers: [AppService, DummyService, MessageFormatterService, LoggerService],
+  providers: [
+    AppService,
+    DummyService,
+    MessageFormatterService,
+    LoggerService,
+    {
+      provide: TypedConfigService,
+      useExisting: ConfigService,
+    },
+  ],
 })
 export class AppModule {}
