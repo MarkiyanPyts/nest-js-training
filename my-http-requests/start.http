@@ -11,7 +11,15 @@ Content-Type: {{content-type}}
     "title": "Learn NestJS",
     "description": "Complete NestJS project",
     "status": "OPEN",
-    "userId": "bfa4cdb7-77b8-4913-8bd7-0a52b1d7fd42"
+    "userId": "bfa4cdb7-77b8-4913-8bd7-0a52b1d7fd42",
+    "labels": [
+        {
+            "name": "backend"
+        },
+        {
+            "name": "nestjs"
+        }
+    ]
 }
 
 ### Set taskId variable

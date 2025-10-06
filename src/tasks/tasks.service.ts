@@ -24,6 +24,14 @@ export class TasksService {
   }
 
   public async createTask(CreateTaskDto: CreateTaskDto): Promise<Task> {
+    // const task: CreateTaskDto = {
+    //   title: 'Learn NestJS',
+    //   description: 'Complete NestJS project',
+    //   status: TaskStatus.OPEN,
+    //   userId: 'bfa4cdb7-77b8-4913-8bd7-0a52b1d7fd42',
+    //   labels: [{ name: 'backend' }, { name: 'nestjs' }],
+    // };
+    // this.tasksRepository.create(task);
     return await this.tasksRepository.save(CreateTaskDto);
   }
 
