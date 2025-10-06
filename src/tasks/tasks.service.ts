@@ -20,7 +20,10 @@ export class TasksService {
 
   public async findOne(id: string): Promise<Task | null> {
     console.log(`Looking for task with ${id} in tasks repository`);
-    return await this.tasksRepository.findOneBy({ id });
+    return await this.tasksRepository.findOne({
+      where: { id },
+      relations: ['labels'], // also load all related labels
+    });
   }
 
   public async createTask(CreateTaskDto: CreateTaskDto): Promise<Task> {

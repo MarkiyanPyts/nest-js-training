@@ -44,28 +44,13 @@ Content-Type: {{content-type}}
     "status": "XXX"
 }
 
-### Update task status
-PATCH {{baseURL}}/tasks/{{taskId}}/status
-Content-Type: {{content-type}}
-
-{
-    "status": "IN_PROGRESS"
-}
-
-### Update task status bad request
-PATCH {{baseURL}}/tasks/{{taskId}}/status
-Content-Type: {{content-type}}
-
-{
-    "status": "XXX"
-}
-
 ### Update task
 PATCH {{baseURL}}/tasks/{{taskId}}
 Content-Type: {{content-type}}
 
 {
-    "status": "OPEN"
+    "status": "OPEN",
+    "labels": []
 }
 
 ### Delete task
