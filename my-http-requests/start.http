@@ -35,6 +35,10 @@ GET {{baseURL}}/tasks?limit=2&offset=0
 # @name getAllTasksWithStatus
 GET {{baseURL}}/tasks?status=OPEN
 
+### Get All Tasks with search filter
+# @name getAllTasksWithSearch
+GET {{baseURL}}/tasks?search=NestJS
+
 ###Get One Task
 GET {{baseURL}}/tasks/{{taskId}}
 
