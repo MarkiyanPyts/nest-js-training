@@ -40,6 +40,9 @@ export class TasksService {
     //   labels: [{ name: 'backend' }, { name: 'nestjs' }],
     // };
     // this.tasksRepository.create(task);
+    if (CreateTaskDto.labels) {
+      CreateTaskDto.labels = this.getUniqueLabels(CreateTaskDto.labels);
+    }
     return await this.tasksRepository.save(CreateTaskDto);
   }
 
@@ -47,11 +50,22 @@ export class TasksService {
     task: Task,
     labelsDtos: CreateTaskLabelDto[],
   ): Promise<Task> {
-    const labels = labelsDtos.map((label) => {
-      return this.taskLabelsRepository.create(label); //just creating not saving yet
-    });
-    task.labels = [...task.labels, ...labels];
-    return await this.tasksRepository.save(task); //saving task will also save labels because of cascade option
+    const existingNames = new Set(task.labels.map((label) => label.name));
+
+    const labels = this.getUniqueLabels(labelsDtos)
+      .filter((dto) => {
+        return !existingNames.has(dto.name);
+      })
+      .map((label) => {
+        return this.taskLabelsRepository.create(label); //just creating not saving yet
+      });
+
+    if (labels.length) {
+      task.labels = [...task.labels, ...labels];
+      return await this.tasksRepository.save(task); //saving task will also save labels because of cascade option
+    } else {
+      return task;
+    }
   }
 
   private isValidStatusTransition(
@@ -76,11 +90,24 @@ export class TasksService {
     ) {
       throw new WrongTaskStatusException();
     }
+
+    if (updateTaskDto.labels) {
+      updateTaskDto.labels = this.getUniqueLabels(updateTaskDto.labels);
+    }
+
     Object.assign(task, updateTaskDto);
     return await this.tasksRepository.save(task);
   }
 
   public async deleteTask(task: Task): Promise<void> {
     await this.tasksRepository.delete(task);
+  }
+
+  private getUniqueLabels(
+    labelsDtos: CreateTaskLabelDto[],
+  ): CreateTaskLabelDto[] {
+    const uniqueNames = [...new Set(labelsDtos.map((label) => label.name))];
+
+    return uniqueNames.map((name) => ({ name }));
   }
 }
