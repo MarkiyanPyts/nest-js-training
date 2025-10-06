@@ -11,6 +11,7 @@ import { typeOrmConfig } from './config/database.config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { TypedConfigService } from './config/typed-config.service';
 import { Task } from './tasks/task.entiry';
+import { User } from './users/user.entiry';
 
 @Module({
   imports: [
@@ -22,7 +23,7 @@ import { Task } from './tasks/task.entiry';
           configService.get('database');
         return {
           ...dbConfig,
-          entities: [Task],
+          entities: [Task, User],
         };
       },
     }),
