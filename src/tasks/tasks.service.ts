@@ -9,6 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TaskLabel } from './task-label.entity';
 import { CreateTaskLabelDto } from './create-task-label.dto';
 import { FindTaskParams } from './find-task.params';
+import { PaginationParams } from 'src/common/pagination.params';
 
 @Injectable()
 export class TasksService {
@@ -20,12 +21,17 @@ export class TasksService {
     private readonly taskLabelsRepository: Repository<TaskLabel>,
   ) {}
 
-  public async findAll(filters: FindTaskParams): Promise<Task[]> {
-    return await this.tasksRepository.find({
+  public async findAll(
+    filters: FindTaskParams,
+    pagination: PaginationParams,
+  ): Promise<[Task[], number]> {
+    return await this.tasksRepository.findAndCount({
       where: {
         status: filters.status,
       },
-      relations: ['labels'], // also load all related labels
+      relations: ['labels'], // also load all related labels,
+      skip: pagination.offset,
+      take: pagination.limit,
     });
   }
 

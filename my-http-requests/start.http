@@ -29,7 +29,7 @@ Content-Type: {{content-type}}
 {{baseURL}}
 ### Get All Tasks
 # @name getAllTasks
-GET {{baseURL}}/tasks
+GET {{baseURL}}/tasks?limit=2&offset=0
 
 ### Get All Tasks with status filter
 # @name getAllTasksWithStatus
