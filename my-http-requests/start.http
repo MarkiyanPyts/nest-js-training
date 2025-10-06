@@ -30,7 +30,7 @@ Content-Type: {{content-type}}
 ###
 GET {{baseURL}}/tasks
 
-###Bad Request Example
+###Get One Task
 GET {{baseURL}}/tasks/{{taskId}}
 
 
@@ -68,4 +68,14 @@ Content-Type: {{content-type}}
     {
         "name": "high priority"
     }
+]
+
+### Remove Task Labels
+# @name removeTaskLabels
+DELETE {{baseURL}}/tasks/{{taskId}}/labels
+Content-Type: {{content-type}}
+
+[
+    "backend",
+    "urgent"
 ]

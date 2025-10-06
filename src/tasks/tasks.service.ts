@@ -99,6 +99,16 @@ export class TasksService {
     return await this.tasksRepository.save(task);
   }
 
+  public async removeLabels(
+    task: Task,
+    labelsToRemove: string[],
+  ): Promise<Task> {
+    task.labels = task.labels.filter(
+      (label) => !labelsToRemove.includes(label.name),
+    );
+    return await this.tasksRepository.save(task);
+  }
+
   public async deleteTask(task: Task): Promise<void> {
     // await this.tasksRepository.delete(task); // type orm does not support cascade delete for delete method
     // await this.tasksRepository.delete(task.id); // passing id to delete method also works fine
