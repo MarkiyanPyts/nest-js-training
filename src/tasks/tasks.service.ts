@@ -8,6 +8,7 @@ import { Task } from './task.entiry';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TaskLabel } from './task-label.entity';
 import { CreateTaskLabelDto } from './create-task-label.dto';
+import { FindTaskParams } from './find-task.params';
 
 @Injectable()
 export class TasksService {
@@ -19,8 +20,13 @@ export class TasksService {
     private readonly taskLabelsRepository: Repository<TaskLabel>,
   ) {}
 
-  public async findAll(): Promise<Task[]> {
-    return await this.tasksRepository.find();
+  public async findAll(filters: FindTaskParams): Promise<Task[]> {
+    return await this.tasksRepository.find({
+      where: {
+        status: filters.status,
+      },
+      relations: ['labels'], // also load all related labels
+    });
   }
 
   public async findOne(id: string): Promise<Task | null> {

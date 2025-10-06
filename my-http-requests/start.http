@@ -27,8 +27,13 @@ Content-Type: {{content-type}}
 
 
 {{baseURL}}
-###
+### Get All Tasks
+# @name getAllTasks
 GET {{baseURL}}/tasks
+
+### Get All Tasks with status filter
+# @name getAllTasksWithStatus
+GET {{baseURL}}/tasks?status=OPEN
 
 ###Get One Task
 GET {{baseURL}}/tasks/{{taskId}}
