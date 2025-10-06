@@ -100,7 +100,9 @@ export class TasksService {
   }
 
   public async deleteTask(task: Task): Promise<void> {
-    await this.tasksRepository.delete(task);
+    // await this.tasksRepository.delete(task); // type orm does not support cascade delete for delete method
+    // await this.tasksRepository.delete(task.id); // passing id to delete method also works fine
+    await this.tasksRepository.remove(task); // remove also removes related labels because of cascade option. It Creates a transaction behind the scenes
   }
 
   private getUniqueLabels(
