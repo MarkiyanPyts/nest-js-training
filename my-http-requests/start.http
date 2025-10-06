@@ -55,3 +55,17 @@ Content-Type: {{content-type}}
 
 ### Delete task
 DELETE {{baseURL}}/tasks/{{taskId}}
+
+### Add Task Labels
+# @name addTaskLabels
+POST {{baseURL}}/tasks/{{taskId}}/labels
+Content-Type: {{content-type}}
+
+[
+    {
+        "name": "urgent"
+    },
+    {
+        "name": "high priority"
+    }
+]
