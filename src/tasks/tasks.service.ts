@@ -3,7 +3,7 @@ import { TaskStatus } from './tasks.model';
 import { CreateTaskDto } from './create.task.dto';
 import { UpdateTaskDto } from './update-task.dto';
 import { WrongTaskStatusException } from './exceptions/wrong-task-status.exception';
-import { FindOptionsWhere, Like, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Task } from './task.entiry';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TaskLabel } from './task-label.entity';
@@ -38,6 +38,10 @@ export class TasksService {
         '(task.title ILIKE :search OR task.description ILIKE :search)',
         { search: `%${filters.search.trim()}%` },
       );
+    }
+
+    if (filters.labels?.length) {
+      query.andWhere('label.name IN (:...labels)', { labels: filters.labels });
     }
 
     query.skip(pagination.offset).take(pagination.limit);
