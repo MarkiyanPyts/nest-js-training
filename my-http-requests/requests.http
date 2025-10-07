@@ -43,6 +43,10 @@ GET {{baseURL}}/tasks?search=NestJS
 # @name getAllTasksWithLabels
 GET {{baseURL}}/tasks?labels=urgent, nestjs
 
+### Get All Tasks with sorting
+# @name getAllTasksWithSorting
+GET {{baseURL}}/tasks?sortBy=createdAt&sortOrder=DESC
+
 ###Get One Task
 GET {{baseURL}}/tasks/{{taskId}}
 
