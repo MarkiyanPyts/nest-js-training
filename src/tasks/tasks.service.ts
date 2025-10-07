@@ -27,7 +27,7 @@ export class TasksService {
   ): Promise<[Task[], number]> {
     const query = this.tasksRepository
       .createQueryBuilder('task')
-      .leftJoinAndSelect('task.labels', 'label');
+      .leftJoinAndSelect('task.labels', 'labels');
 
     if (filters.status) {
       query.andWhere('task.status = :status', { status: filters.status });
@@ -41,7 +41,13 @@ export class TasksService {
     }
 
     if (filters.labels?.length) {
-      query.andWhere('label.name IN (:...labels)', { labels: filters.labels });
+      const subQuery = query
+        .subQuery()
+        .select('labels.taskId')
+        .from('task_label', 'labels')
+        .where('labels.name IN (:...labels)', { labels: filters.labels })
+        .getQuery();
+      query.andWhere(`task.id IN ${subQuery}`);
     }
 
     query.skip(pagination.offset).take(pagination.limit);
