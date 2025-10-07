@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PasswordService } from './password.service';
 import * as bcrypt from 'bcrypt';
 
-jest.mock('bcrypt', () => ({
+jest.mock('bcrypt', () => ({//mock the bcrypt function, it will not be called
   hash: jest.fn(),
   compare: jest.fn(),
 }));
@@ -20,10 +20,10 @@ describe('PasswordService', () => {
 
   it('should hash password', async () => {
     const mockHash = 'hashed_password';
-    (bcrypt.hash as jest.Mock).mockResolvedValue(mockHash);
+    (bcrypt.hash as jest.Mock).mockResolvedValue(mockHash); // we mock function to return this response without being called
     const password = 'password123';
     const result = await service.hash(password);
-    expect(bcrypt.hash).toHaveBeenCalledWith(password, 10);
+    expect(bcrypt.hash).toHaveBeenCalledWith(password, 10); //Spy if our function is passing expected params to third party libs
     expect(result).toBe(mockHash);
   });
 
