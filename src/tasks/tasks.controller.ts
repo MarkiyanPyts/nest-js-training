@@ -20,7 +20,7 @@ import { WrongTaskStatusException } from './exceptions/wrong-task-status.excepti
 import { Task } from './task.entiry';
 import { CreateTaskLabelDto } from './create-task-label.dto';
 import { FindTaskParams } from './find-task.params';
-import { PaginationParams } from 'src/common/pagination.params';
+import { PaginationParams } from '../common/pagination.params';
 import { PaginationResponse } from 'src/common/pagination.response';
 
 @Controller('tasks')
