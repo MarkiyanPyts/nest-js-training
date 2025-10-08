@@ -29,8 +29,9 @@ describe('AppController (e2e)', () => {
       .send(testUser)
       .expect(201)
       .expect((res) => {
-        expect(res.body.email).toBe(testUser.email);
-        expect(res.body.name).toBe(testUser.name);
+        const responseBody = res.body as { email: string; name: string };
+        expect(responseBody.email).toBe(testUser.email);
+        expect(responseBody.name).toBe(testUser.name);
         expect(res.body).not.toHaveProperty('password');
       });
   });
@@ -46,7 +47,7 @@ describe('AppController (e2e)', () => {
       .expect(409);
   });
 
-  it('/auth/login (POST) - duplicate email', async () => {
+  it('/auth/login (POST) - login', async () => {
     await request(testSetup.app.getHttpServer())
       .post('/auth/register')
       .send(testUser);
@@ -58,7 +59,43 @@ describe('AppController (e2e)', () => {
         password: testUser.password,
       });
 
+    // Type assertion to avoid unsafe member access
+    const responseBody = response.body as { accessToken: string };
+
     expect(response.status).toBe(201);
-    expect(response.body.accessToken).toBeDefined();
+    expect(responseBody.accessToken).toBeDefined();
+  });
+
+  it('/auth/profile (GET) - get user profile', async () => {
+    await request(testSetup.app.getHttpServer())
+      .post('/auth/register')
+      .send(testUser);
+
+    const response = await request(testSetup.app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: testUser.email,
+        password: testUser.password,
+      });
+
+    // Type assertion to avoid unsafe member access
+    const responseBody = response.body as { accessToken: string };
+    const token = responseBody.accessToken;
+
+    return await request(testSetup.app.getHttpServer())
+      .get('/auth/profile')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+      .expect((res) => {
+        const responseBody = res.body as { email: string; name: string };
+        expect(responseBody.email).toBe(testUser.email);
+        expect(res.body).not.toHaveProperty('password');
+      });
+  });
+
+  it('/auth/profile (GET) - make sure endpoint is protected', async () => {
+    return await request(testSetup.app.getHttpServer())
+      .get('/auth/profile')
+      .expect(401);
   });
 });
