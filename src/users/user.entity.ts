@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { Task } from '../tasks/task.entiry';
+import { Task } from '../tasks/task.entity';
 import {
   Column,
   CreateDateColumn,

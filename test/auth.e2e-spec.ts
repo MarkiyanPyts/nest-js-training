@@ -2,7 +2,7 @@ import request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { TestSetup } from './utils/test-setup';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { User } from '../src/users/user.entiry';
+import { User } from '../src/users/user.entity';
 import { Role } from '../src/users/role.enum';
 import { Repository } from 'typeorm';
 import { PasswordService } from '../src/users/password/password.service';

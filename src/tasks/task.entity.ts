@@ -10,7 +10,7 @@ import {
 import { TaskStatus } from './tasks.model';
 
 import { TaskLabel } from './task-label.entity';
-import { User } from '../users/user.entiry';
+import { User } from '../users/user.entity';
 
 // one-to-many relationship
 // ?User that has many tasks

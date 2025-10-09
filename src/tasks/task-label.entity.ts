@@ -8,7 +8,7 @@ import {
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
-import { Task } from './task.entiry';
+import { Task } from './task.entity';
 
 @Entity()
 @Unique(['name', 'taskId'])

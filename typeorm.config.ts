@@ -1,5 +1,6 @@
 import { config } from 'dotenv';
 import { DataSource } from 'typeorm';
+
 config();
 
 export default new DataSource({
@@ -9,7 +10,7 @@ export default new DataSource({
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME ?? 'tasks',
-  synchronize: false, // newer have it set to true in production
-  entities: ['dist/**/*.entity{.ts, js}'],
-  migrations: ['dist/migrations/*.{.ts, js}'],
+  synchronize: false,
+  entities: ['dist/**/*.entity{.ts,.js}'],
+  migrations: ['dist/src/migrations/*{.ts,.js}'],
 });

@@ -3,7 +3,7 @@ import { AppModule } from './../src/app.module';
 import { TestSetup } from './utils/test-setup';
 import { TaskStatus } from '../src/tasks/tasks.model';
 import { PaginationResponse } from 'src/common/pagination.response';
-import { Task } from 'src/tasks/task.entiry';
+import { Task } from 'src/tasks/task.entity';
 
 describe('Authentication and Authorization (e2e)', () => {
   let testSetup: TestSetup;

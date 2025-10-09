@@ -10,7 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from '../create-user.dto';
-import { User } from '../user.entiry';
+import { User } from '../user.entity';
 import { AuthService } from './auth.service';
 import { LoginDto } from '../login.tdo';
 import { LoginResponse } from '../login.response';
