@@ -7,6 +7,7 @@ import { Role } from '../src/users/role.enum';
 import { Repository } from 'typeorm';
 import { PasswordService } from '../src/users/password/password.service';
 import { JwtService } from '@nestjs/jwt';
+import { LoginResponse } from '../src/users/login.response';
 
 describe('AppController (e2e)', () => {
   let testSetup: TestSetup;
@@ -91,7 +92,7 @@ describe('AppController (e2e)', () => {
         password: testUser.password,
       });
 
-    const responseBody = response.body as { accessToken: string };
+    const responseBody = response.body as LoginResponse;
     const decoded = testSetup.app
       .get(JwtService)
       .verify<User>(responseBody.accessToken);
