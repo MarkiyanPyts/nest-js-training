@@ -202,4 +202,19 @@ describe('Authentication and Authorization (e2e)', () => {
       .set('Authorization', `Bearer ${token}`)
       .expect(403);
   });
+
+  it('/auth/register (POST) - attempting to register as an admin', async () => {
+    const userAdmin = {
+      ...testUser,
+      roles: [Role.ADMIN],
+    };
+    await request(testSetup.app.getHttpServer())
+      .post('/auth/register')
+      .send(userAdmin)
+      .expect(201)
+      .expect((res) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        expect(res.body.roles).toEqual([Role.USER]);
+      });
+  });
 });
