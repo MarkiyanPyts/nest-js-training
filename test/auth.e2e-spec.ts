@@ -9,7 +9,7 @@ import { PasswordService } from '../src/users/password/password.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginResponse } from '../src/users/login.response';
 
-describe('AppController (e2e)', () => {
+describe('Authentication and Authorization (e2e)', () => {
   let testSetup: TestSetup;
 
   beforeEach(async () => {
@@ -150,5 +150,56 @@ describe('AppController (e2e)', () => {
     return await request(testSetup.app.getHttpServer())
       .get('/auth/profile')
       .expect(401);
+  });
+
+  it('/auth/admin (GET) - admin access', async () => {
+    const userRepo = testSetup.app.get<Repository<User>>(
+      getRepositoryToken(User),
+    );
+    await userRepo.save({
+      ...testUser,
+      roles: [Role.ADMIN],
+      password: await testSetup.app
+        .get(PasswordService)
+        .hash(testUser.password),
+    });
+
+    const response = await request(testSetup.app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: testUser.email,
+        password: testUser.password,
+      });
+    const responseBody = response.body as { accessToken: string };
+    const token = responseBody.accessToken;
+    return request(testSetup.app.getHttpServer())
+      .get('/auth/admin')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200)
+      .expect((res) => {
+        expect(res.body.message).toBe('This is for admins only');
+      });
+  });
+
+  it('/auth/admin (GET) - regular user denied', async () => {
+    await request(testSetup.app.getHttpServer())
+      .post('/auth/register')
+      .send(testUser);
+
+    const response = await request(testSetup.app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        email: testUser.email,
+        password: testUser.password,
+      });
+
+    // Type assertion to avoid unsafe member access
+    const responseBody = response.body as { accessToken: string };
+    const token = responseBody.accessToken;
+
+    await request(testSetup.app.getHttpServer())
+      .get('/auth/admin')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(403);
   });
 });
