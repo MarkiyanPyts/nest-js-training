@@ -12,6 +12,9 @@ async function bootstrap() {
       // disableErrorMessages: false, // Enable detailed error messages (set to true in production for security)
     }),
   );
-  await app.listen(process.env.PORT ?? 3000);
+  const port = process.env.PORT ?? 3000;
+  await app.listen(port).then(() => {
+    console.log(`App Started On Port ${port}`);
+  });
 }
 bootstrap();

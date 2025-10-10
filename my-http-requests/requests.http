@@ -1,11 +1,36 @@
 ### Variables
-@baseURL = http://localhost:3000
+@baseURL = http://localhost:8080
 @content-type = application/json
+
+### Register
+# @name registerUser
+POST {{baseURL}}/auth/register
+Content-Type: {{content-type}}
+
+{
+"email": "test@example.com",
+"password": "Password123!",
+"name": "Test User"
+}
+
+###Login
+# @name login
+POST {{baseURL}}/auth/login
+Content-Type: {{content-type}}
+
+{
+"email": "test@example.com",
+"password": "Password123!"
+}
+
+### sec access token
+@accessToken = {{login.response.body.$.accessToken}}
 
 ###
 # @name createNewTask
 POST {{baseURL}}/tasks
 Content-Type: {{content-type}}
+Authorization: Bearer {{accessToken}}
 
 {
     "title": "Learn NestJS",
@@ -30,30 +55,37 @@ Content-Type: {{content-type}}
 ### Get All Tasks
 # @name getAllTasks
 GET {{baseURL}}/tasks?limit=2&offset=0
+Authorization: Bearer {{accessToken}}
 
 ### Get All Tasks with status filter
 # @name getAllTasksWithStatus
 GET {{baseURL}}/tasks?status=OPEN
+Authorization: Bearer {{accessToken}}
 
 ### Get All Tasks with search filter
 # @name getAllTasksWithSearch
 GET {{baseURL}}/tasks?search=NestJS
+Authorization: Bearer {{accessToken}}
 
 ### Get All Tasks with labels filter
 # @name getAllTasksWithLabels
 GET {{baseURL}}/tasks?labels=urgent, nestjs
+Authorization: Bearer {{accessToken}}
 
 ### Get All Tasks with sorting
 # @name getAllTasksWithSorting
 GET {{baseURL}}/tasks?sortBy=createdAt&sortOrder=DESC
+Authorization: Bearer {{accessToken}}
 
 ###Get One Task
 GET {{baseURL}}/tasks/{{taskId}}
+Authorization: Bearer {{accessToken}}
 
 
 ### Test invalid status
 POST {{baseURL}}/tasks
 Content-Type: {{content-type}}
+Authorization: Bearer {{accessToken}}
 
 {
     "title": null,
@@ -64,6 +96,7 @@ Content-Type: {{content-type}}
 ### Update task
 PATCH {{baseURL}}/tasks/{{taskId}}
 Content-Type: {{content-type}}
+Authorization: Bearer {{accessToken}}
 
 {
     "status": "OPEN",
@@ -72,11 +105,13 @@ Content-Type: {{content-type}}
 
 ### Delete task
 DELETE {{baseURL}}/tasks/{{taskId}}
+Authorization: Bearer {{accessToken}}
 
 ### Add Task Labels
 # @name addTaskLabels
 POST {{baseURL}}/tasks/{{taskId}}/labels
 Content-Type: {{content-type}}
+Authorization: Bearer {{accessToken}}
 
 [
     {
@@ -91,6 +126,7 @@ Content-Type: {{content-type}}
 # @name removeTaskLabels
 DELETE {{baseURL}}/tasks/{{taskId}}/labels
 Content-Type: {{content-type}}
+Authorization: Bearer {{accessToken}}
 
 [
     "backend",

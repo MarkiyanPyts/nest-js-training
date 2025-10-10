@@ -13,6 +13,7 @@ export class AppController {
   }
 
   @Get('/health')
+  @Public()
   check() {
     return true;
   }
