@@ -16,6 +16,17 @@ services:
       timeout: 5s
       retries: 5
     restart: unless-stopped
+  # api:
+  #   build: .
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     DB_HOST: postgres
+  #     DB_PORT: '5432'
+  #     DB_USER: nestcource
+  #     DB_PASSWORD: postgres
+  #     DB_NAME: tasks
+  #   restart: on-failure
 
 volumes:
   postgres_data:
